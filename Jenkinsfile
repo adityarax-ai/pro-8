@@ -1,34 +1,20 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'JDK17'
-        maven 'Maven3'
-    }
-
     stages {
-        stage('Checkout') {
+
+        stage('Compile') {
             steps {
-                git branch: 'main', url: 'https://github.com/adityarax-ai/Lab-11.git'
+                echo 'Compiling Java file...'
+                bat 'javac Calculator.java'
             }
         }
 
-        stage('Build') {
+        stage('Run') {
             steps {
-                bat 'mvn clean compile'
+                echo 'Running Java program...'
+                bat 'java Calculator'
             }
-        }
-
-        stage('Test') {
-            steps {
-                bat 'mvn test'
-            }
-        }
-    }
-
-    post {
-        always {
-            junit '**/target/surefire-reports/*.xml'
         }
     }
 }
